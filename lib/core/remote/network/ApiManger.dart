@@ -10,7 +10,6 @@ class ApiManger{
   ApiManger._init();
    static getListMovies() async {
    dynamic response= await dio.get("/v2/list_movies.json",);
-   print(response);
   }
 
   getMoviesSuggestions(){

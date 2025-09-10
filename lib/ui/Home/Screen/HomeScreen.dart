@@ -4,22 +4,26 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:movies_app/core/remote/network/ApiManger.dart';
 import 'package:movies_app/core/resources/AssetsManager.dart';
 import 'package:movies_app/core/resources/ColorManager.dart';
+import 'package:movies_app/ui/Home/widgets/home_nav/home_nav.dart';
 
 class HomeScreen extends StatefulWidget {
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> navigationView=[];
-  int selectedIndex=0;
+  List<Widget> navigationView = [
+    home_nav(),
+    Container(color: Colors.red),
+    Container(color: Colors.yellow),
+    Container(color: Colors.blue),
+  ];
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       bottomNavigationBar: BottomNavigationBar(
-
         currentIndex: selectedIndex,
         type: BottomNavigationBarType.fixed,
         showSelectedLabels: false,
@@ -48,11 +52,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
         onTap: (currentIndex) {
           setState(() {
-            selectedIndex=currentIndex;
+            selectedIndex = currentIndex;
           });
         },
       ),
-      body: Placeholder(),
+      body: navigationView[selectedIndex],
     );
   }
 }

@@ -7,5 +7,8 @@ abstract class AssetsManager{
    static const selected_browse="lib/assets/images/selected_explore.svg";
    static const profile="lib/assets/images/profile.svg";
    static const selected_profile="lib/assets/images/selected_profile.svg";
-
+   static const filmImg="lib/assets/images/filmImg.png";
+   static const filmPoster="lib/assets/images/fimePoster.jpg";
+   static const watch_now="lib/assets/images/watch_now.png";
+   static const Avilable_now="lib/assets/images/Avilable_now.png";
 }
