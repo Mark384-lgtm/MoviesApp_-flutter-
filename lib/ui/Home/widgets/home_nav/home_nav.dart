@@ -167,9 +167,9 @@ class _home_navState extends State<home_nav> {
                     },
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) {
-                      return MovieItem(imgPath: AssetsManager.filmImg);
+                      return MovieItem(imgPath: movies_list[index].mediumCoverImage!);
                     },
-                    itemCount: 10,
+                    itemCount: movies_list.length,
                   ),
                 ),
               ],
