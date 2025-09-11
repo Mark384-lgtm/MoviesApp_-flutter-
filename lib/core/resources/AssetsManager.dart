@@ -11,4 +11,5 @@ abstract class AssetsManager{
    static const filmPoster="lib/assets/images/fimePoster.jpg";
    static const watch_now="lib/assets/images/watch_now.png";
    static const Avilable_now="lib/assets/images/Avilable_now.png";
+   static const star="lib/assets/images/star.svg";
 }

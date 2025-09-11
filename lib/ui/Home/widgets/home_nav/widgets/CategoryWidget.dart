@@ -61,6 +61,7 @@ class Categorywidget extends StatelessWidget {
                 itemBuilder: (context, index) {
                   return MovieItem(
                     imgPath: movieslist[index].mediumCoverImage!,
+                    rating: movieslist[index].rating,
                   );
                 },
                 itemCount: movieslist.length,

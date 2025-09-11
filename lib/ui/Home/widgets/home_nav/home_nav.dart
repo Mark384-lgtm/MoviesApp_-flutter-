@@ -133,6 +133,7 @@ class _home_navState extends State<home_nav> {
                                   child: MovieItem(
                                     imgPath:
                                         movies_list[index].largeCoverImage!,
+                                    rating: movies_list[index].rating,
                                   ),
                                 );
                               },
