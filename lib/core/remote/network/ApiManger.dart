@@ -1,4 +1,6 @@
 import 'package:dio/dio.dart';
+import 'package:movies_app/data/model/ListMoviesResponse/ListMoviesResponse.dart';
+import 'package:movies_app/data/model/ListMoviesResponse/Movies.dart';
 
 class ApiManger{
   static ApiManger instance=ApiManger._init();
@@ -8,8 +10,12 @@ class ApiManger{
     )
   );
   ApiManger._init();
-   static getListMovies() async {
-   dynamic response= await dio.get("/v2/list_movies.json",);
+
+   static Future<List<Movies>> getListMovies() async {
+   dynamic json_response= await dio.get("/v2/list_movies.json",);
+   ListMoviesResponse response=ListMoviesResponse.fromJson(json_response.data);
+   List<Movies>? movies_list=response.data?.movies ?? [];
+   return movies_list;
   }
 
   getMoviesSuggestions(){
