@@ -15,7 +15,7 @@ class CastItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 92,
+
       width: double.infinity,
       decoration: BoxDecoration(
         color: ColorManager.navbarColor,
@@ -48,6 +48,7 @@ class CastItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -57,7 +58,7 @@ class CastItem extends StatelessWidget {
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Colors.white),
                     ),
-                    Spacer(),
+                    SizedBox(height: 11,),
                     Text(
                       textAlign: TextAlign.start,
                       "caharcter: ${cast_data.characterName!}",
