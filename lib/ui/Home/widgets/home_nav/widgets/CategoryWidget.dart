@@ -2,8 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show TextButton, Theme, CircularProgressIndicator, Colors;
 import 'package:movies_app/core/remote/network/ApiManger.dart';
-import 'package:movies_app/data/model/ListMoviesResponse/Movies.dart';
 
+
+import '../../../../../data/model/MoviesDetailsResponse/Movie.dart';
 import 'MovieItem.dart';
 
 class Categorywidget extends StatelessWidget {
@@ -50,7 +51,7 @@ class Categorywidget extends StatelessWidget {
                 ),
               );
             }
-            List<Movies> movieslist = snapshot.data!;
+            List<Movie> movieslist = snapshot.data!;
             return SizedBox(
               height: 200,
               child: ListView.separated(
@@ -60,8 +61,7 @@ class Categorywidget extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
                   return MovieItem(
-                    imgPath: movieslist[index].mediumCoverImage!,
-                    rating: movieslist[index].rating,
+                  movie: movieslist[index],
                   );
                 },
                 itemCount: movieslist.length,

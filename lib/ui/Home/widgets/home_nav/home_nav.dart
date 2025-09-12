@@ -4,9 +4,11 @@ import 'package:movies_app/core/remote/network/ApiManger.dart';
 import 'package:movies_app/core/resources/AssetsManager.dart';
 import 'package:movies_app/core/resources/ColorManager.dart';
 import 'package:movies_app/core/resources/StringManger.dart';
-import 'package:movies_app/data/model/ListMoviesResponse/Movies.dart';
+
 import 'package:movies_app/ui/Home/widgets/home_nav/widgets/CategoryWidget.dart';
 import 'package:movies_app/ui/Home/widgets/home_nav/widgets/MovieItem.dart';
+
+import '../../../../data/model/MoviesDetailsResponse/Movie.dart';
 
 class home_nav extends StatefulWidget {
   @override
@@ -52,7 +54,7 @@ class _home_navState extends State<home_nav> {
           );
         }
 
-        List<Movies>? movies_list = snapshot.data;
+        List<Movie>? movies_list = snapshot.data;
         return SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -131,9 +133,7 @@ class _home_navState extends State<home_nav> {
                                     );
                                   },
                                   child: MovieItem(
-                                    imgPath:
-                                        movies_list[index].largeCoverImage!,
-                                    rating: movies_list[index].rating,
+                                    movie: movies_list[index],
                                   ),
                                 );
                               },

@@ -12,4 +12,7 @@ abstract class AssetsManager{
    static const watch_now="lib/assets/images/watch_now.png";
    static const Avilable_now="lib/assets/images/Avilable_now.png";
    static const star="lib/assets/images/star.svg";
+   static const play="lib/assets/images/play.png";
+   static const love="lib/assets/images/love.svg";
+   static const duration="lib/assets/images/duration.svg";
 }
