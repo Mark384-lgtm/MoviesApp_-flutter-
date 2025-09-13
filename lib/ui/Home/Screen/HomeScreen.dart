@@ -5,6 +5,7 @@ import 'package:movies_app/core/remote/network/ApiManger.dart';
 import 'package:movies_app/core/resources/AssetsManager.dart';
 import 'package:movies_app/core/resources/ColorManager.dart';
 import 'package:movies_app/ui/Home/widgets/home_nav/home_nav.dart';
+import 'package:movies_app/ui/Home/widgets/search_nav/search_nav.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Widget> navigationView = [
     home_nav(),
-    Container(color: Colors.red),
+    search_nav(),
     Container(color: Colors.yellow),
     Container(color: Colors.blue),
   ];

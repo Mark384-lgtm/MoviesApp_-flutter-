@@ -11,12 +11,18 @@ class ApiManger {
   ApiManger._init();
 
   static Future<List<Movie>> getListMovies({
-    String? sort_by = "year",
-    String? genre = null,
+    String sort_by = "year",
+    String? genre,
+    String? query_term
   }) async {
     dynamic json_response = await dio.get(
       "/v2/list_movies.json",
-      queryParameters: {"sort_by": sort_by, "genre": genre, "order_by": "desc"},
+      queryParameters: {
+        "query_term": query_term,
+        "sort_by": sort_by,
+        "genre": genre,
+        "order_by": "desc"
+      },
     );
     ListMoviesResponse response = ListMoviesResponse.fromJson(
       json_response.data,
