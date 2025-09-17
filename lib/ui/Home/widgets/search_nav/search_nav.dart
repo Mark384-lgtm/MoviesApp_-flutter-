@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/remote/network/ApiManger.dart';
-import 'package:movies_app/data/model/MoviesDetailsResponse/Movie.dart';
-import 'package:movies_app/ui/Home/widgets/home_nav/widgets/MovieItem.dart';
-import 'package:movies_app/ui/Home/widgets/search_nav/widgets/SearchField.dart';
+import 'package:movies/ui/Home/widgets/search_nav/widgets/SearchField.dart';
+
+import '../../../../core/remote/network/ApiManger.dart';
+import '../../../../data/model/MoviesDetailsResponse/Movie.dart';
+import '../home_nav/widgets/MovieItem.dart';
 
 class search_nav extends StatefulWidget {
   String? query_term;

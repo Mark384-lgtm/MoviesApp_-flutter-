@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
-import 'package:movies_app/core/resources/RoutesManager.dart';
 
+
+import '../../../../../core/resources/ColorManager.dart';
+import '../../../../../core/resources/RoutesManager.dart';
 import '../../../../../data/model/MoviesDetailsResponse/Movie.dart';
 
 class MovieItem extends StatelessWidget {

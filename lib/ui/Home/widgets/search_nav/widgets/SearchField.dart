@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movies_app/core/resources/AssetsManager.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
+import '../../../../../core/resources/AssetsManager.dart';
+import '../../../../../core/resources/ColorManager.dart';
 
 class SearchField extends StatefulWidget {
   void Function(String? term) get_Querterm;

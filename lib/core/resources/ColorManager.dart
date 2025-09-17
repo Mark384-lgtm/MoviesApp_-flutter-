@@ -6,5 +6,5 @@ abstract class ColorManager{
   static const yellow = Color(0xffF6BD00);
   static const grey =Color(0xffADADAD);
   static const red =Color(0xffE82626);
-
+  static const Color textFieldColor = Color(0xff282A28);
 }

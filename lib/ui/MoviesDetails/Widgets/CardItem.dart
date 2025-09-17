@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
+import '../../../core/resources/ColorManager.dart';
 
 class CardItem extends StatelessWidget {
   String _iconpth;

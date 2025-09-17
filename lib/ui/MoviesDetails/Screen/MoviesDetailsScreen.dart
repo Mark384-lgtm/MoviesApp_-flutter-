@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movies_app/core/remote/network/ApiManger.dart';
-import 'package:movies_app/core/resources/AssetsManager.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
-import 'package:movies_app/data/model/MoviesDetailsResponse/Movie.dart';
-import 'package:movies_app/ui/Home/widgets/home_nav/widgets/MovieItem.dart';
-import 'package:movies_app/ui/MoviesDetails/Widgets/CardItem.dart';
-import 'package:movies_app/ui/MoviesDetails/Widgets/CastItem.dart';
-import 'package:movies_app/ui/MoviesDetails/Widgets/GenreItem.dart';
-import 'package:movies_app/ui/MoviesDetails/Widgets/ScreenShotItem.dart';
-
+import '../../../core/remote/network/ApiManger.dart';
+import '../../../core/resources/AssetsManager.dart';
+import '../../../core/resources/ColorManager.dart';
 import '../../../data/model/MoviesDetailsResponse/Cast.dart';
+import '../../../data/model/MoviesDetailsResponse/Movie.dart';
+import '../../Home/widgets/home_nav/widgets/MovieItem.dart';
+import '../Widgets/CardItem.dart';
+import '../Widgets/CastItem.dart';
+import '../Widgets/GenreItem.dart';
+import '../Widgets/ScreenShotItem.dart';
 
 class MoviesDetailsScreen extends StatelessWidget {
   @override

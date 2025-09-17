@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:movies_app/data/model/ListMoviesResponse/ListMoviesResponse.dart';
-import 'package:movies_app/data/model/MoviesDetailsResponse/MoviesDetailsResponse.dart';
-import 'package:movies_app/data/model/MovieSuggestionsResponse/MoiveSuggestionsResponse.dart';
+import '../../../data/model/ListMoviesResponse/ListMoviesResponse.dart';
+import '../../../data/model/MovieSuggestionsResponse/MoiveSuggestionsResponse.dart';
 import '../../../data/model/MoviesDetailsResponse/Movie.dart';
+import '../../../data/model/MoviesDetailsResponse/MoviesDetailsResponse.dart';
 
 class ApiManger {
   static ApiManger instance = ApiManger._init();

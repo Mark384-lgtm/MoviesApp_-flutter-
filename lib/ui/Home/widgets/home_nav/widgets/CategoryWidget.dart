@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show TextButton, Theme, CircularProgressIndicator, Colors;
-import 'package:movies_app/core/remote/network/ApiManger.dart';
 
 
+
+import '../../../../../core/remote/network/ApiManger.dart';
 import '../../../../../data/model/MoviesDetailsResponse/Movie.dart';
 import 'MovieItem.dart';
 

@@ -1,13 +1,13 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/remote/network/ApiManger.dart';
-import 'package:movies_app/core/resources/AssetsManager.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
-import 'package:movies_app/core/resources/StringManger.dart';
+import 'package:movies/ui/Home/widgets/home_nav/widgets/CategoryWidget.dart';
+import 'package:movies/ui/Home/widgets/home_nav/widgets/MovieItem.dart';
 
-import 'package:movies_app/ui/Home/widgets/home_nav/widgets/CategoryWidget.dart';
-import 'package:movies_app/ui/Home/widgets/home_nav/widgets/MovieItem.dart';
 
+import '../../../../core/remote/network/ApiManger.dart';
+import '../../../../core/resources/AssetsManager.dart';
+import '../../../../core/resources/ColorManager.dart';
+import '../../../../core/resources/StringManger.dart';
 import '../../../../data/model/MoviesDetailsResponse/Movie.dart';
 
 class home_nav extends StatefulWidget {

@@ -1,11 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movies_app/core/remote/network/ApiManger.dart';
-import 'package:movies_app/core/resources/AssetsManager.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
-import 'package:movies_app/ui/Home/widgets/home_nav/home_nav.dart';
-import 'package:movies_app/ui/Home/widgets/search_nav/search_nav.dart';
+import '../../../core/resources/AssetsManager.dart';
+import '../widgets/home_nav/home_nav.dart';
+import '../widgets/search_nav/search_nav.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:movies_app/core/resources/AssetsManager.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
-import 'package:movies_app/data/model/MoviesDetailsResponse/Movie.dart';
 
+
+import '../../../core/resources/AssetsManager.dart';
+import '../../../core/resources/ColorManager.dart';
 import '../../../data/model/MoviesDetailsResponse/Cast.dart';
 
 class CastItem extends StatelessWidget {

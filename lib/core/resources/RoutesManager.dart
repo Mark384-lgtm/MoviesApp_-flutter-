@@ -1,6 +1,9 @@
-import 'package:movies_app/ui/MoviesDetails/Screen/MoviesDetailsScreen.dart';
+
 
 abstract class RouteManager{
   static const HomeScreen="HomeScreen";
   static const MoviesDetailsScreen="MoviesDetailsScreen";
+  static const forgetPassword = "ForgetPassword";
+  static const login = "Login";
+  static const register = "Register";
 }

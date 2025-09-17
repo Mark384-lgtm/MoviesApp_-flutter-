@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:movies_app/core/resources/ColorManager.dart';
+
+import 'ColorManager.dart';
+
 
 class ThemeMangaer {
   static ThemeData theme = ThemeData(
