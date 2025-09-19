@@ -3,4 +3,6 @@ abstract class StringsManager{
   static const String comedy="Comedy";
   static const String crime="Crime";
   static const String history="History";
+  static const String horror="Horror";
+  static const String romance="Romance";
 }
