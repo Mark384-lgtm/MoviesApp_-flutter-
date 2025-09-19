@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:movies/core/resources/ColorManager.dart';
 
 import 'package:movies/core/resources/StringManger.dart';
 import 'package:movies/ui/Home/widgets/browse/widgets/TabViewItem.dart';
@@ -43,6 +44,11 @@ class _browse_navState extends State<browse_nav> {
               child: Column(
                 children: [
                   TabBar(
+                    unselectedLabelColor: Colors.white,
+                    labelColor: ColorManager.yellow,
+                    indicatorColor: ColorManager.yellow,
+                    indicatorSize: TabBarIndicatorSize.tab,
+                    dividerHeight: 0,
                     tabAlignment: TabAlignment.start,
                     padding: EdgeInsets.zero,
                     onTap: (query) {
