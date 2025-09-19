@@ -1,20 +1,20 @@
 abstract class AssetsManager {
-  static const home = "lib/assets/images/home.svg";
-  static const selected_home = "lib/assets/images/selected_home.svg";
-  static const search = "lib/assets/images/search.svg";
-  static const selected_search = "lib/assets/images/selected_search.svg";
-  static const browse = "lib/assets/images/explore.svg";
-  static const selected_browse = "lib/assets/images/selected_explore.svg";
-  static const profile = "lib/assets/images/profile.svg";
-  static const selected_profile = "lib/assets/images/selected_profile.svg";
-  static const filmImg = "lib/assets/images/filmImg.png";
-  static const filmPoster = "lib/assets/images/fimePoster.jpg";
-  static const watch_now = "lib/assets/images/watch_now.png";
-  static const Avilable_now = "lib/assets/images/Avilable_now.png";
-  static const star = "lib/assets/images/star.svg";
-  static const play = "lib/assets/images/play.png";
-  static const love = "lib/assets/images/love.svg";
-  static const duration = "lib/assets/images/duration.svg";
+  static const home = "assets/images/home.svg";
+  static const selected_home = "assets/images/selected_home.svg";
+  static const search = "assets/images/search.svg";
+  static const selected_search = "assets/images/selected_search.svg";
+  static const browse = "assets/images/explore.svg";
+  static const selected_browse = "assets/images/selected_explore.svg";
+  static const profile = "assets/images/profile.svg";
+  static const selected_profile = "assets/images/selected_profile.svg";
+  static const filmImg = "assets/images/filmImg.png";
+  static const filmPoster = "assets/images/fimePoster.jpg";
+  static const watch_now = "assets/images/watch_now.png";
+  static const Avilable_now = "assets/images/Avilable_now.png";
+  static const star = "assets/images/star.svg";
+  static const play = "assets/images/play.png";
+  static const love = "assets/images/love.svg";
+  static const duration = "assets/images/duration.svg";
 
   static const String Logo =
       "assets/images/Authentication image/316662-P9J1RJ-122 1.png";
