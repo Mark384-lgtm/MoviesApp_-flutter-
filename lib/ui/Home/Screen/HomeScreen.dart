@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movies/ui/Home/widgets/browse/browse_nav.dart';
 import '../../../core/resources/AssetsManager.dart';
 import '../widgets/home_nav/home_nav.dart';
 import '../widgets/search_nav/search_nav.dart';
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Widget> navigationView = [
     home_nav(),
     search_nav(),
-    Container(color: Colors.yellow),
+    browse_nav(),
     Container(color: Colors.blue),
   ];
   int selectedIndex = 0;

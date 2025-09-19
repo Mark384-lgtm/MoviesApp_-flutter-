@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeMangaer.theme,
-      initialRoute: RouteManager.login,
+      initialRoute: RouteManager.HomeScreen,
       routes: {
         RouteManager.HomeScreen:(_)=>HomeScreen(),
         RouteManager.MoviesDetailsScreen:(_)=> MoviesDetailsScreen(),
