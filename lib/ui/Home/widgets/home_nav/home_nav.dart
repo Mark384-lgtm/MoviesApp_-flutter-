@@ -164,6 +164,8 @@ class _home_navState extends State<home_nav> {
                 SizedBox(height: 16,),
                 Categorywidget(category: StringsManager.romance),
                 SizedBox(height: 16,),
+                Categorywidget(category: StringsManager.drama),
+                SizedBox(height: 16,),
               ],
             ),
           ),

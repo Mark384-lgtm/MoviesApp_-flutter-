@@ -5,4 +5,5 @@ abstract class StringsManager{
   static const String history="History";
   static const String horror="Horror";
   static const String romance="Romance";
+  static const String drama="Drama";
 }

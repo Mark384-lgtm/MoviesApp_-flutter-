@@ -36,7 +36,7 @@ class _browse_navState extends State<browse_nav> {
         List<Movie>? movies = snapshot.data;
         return DefaultTabController(
           initialIndex: selectedIndex,
-          length: 6,
+          length: 7,
           child: SafeArea(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 21),
@@ -72,6 +72,10 @@ class _browse_navState extends State<browse_nav> {
                             query_term = StringsManager.romance;
                             selectedIndex = 5;
                             break;
+                          case 6:
+                            query_term = StringsManager.drama;
+                            selectedIndex = 6;
+                            break;
                         }
                       });
                     },
@@ -83,6 +87,7 @@ class _browse_navState extends State<browse_nav> {
                       Tab(text: StringsManager.history),
                       Tab(text: StringsManager.horror),
                       Tab(text: StringsManager.romance),
+                      Tab(text: StringsManager.drama),
                     ],
                   ),
                   SizedBox(height: 12.28),
@@ -90,6 +95,7 @@ class _browse_navState extends State<browse_nav> {
                     child: TabBarView(
                       physics: NeverScrollableScrollPhysics(),
                       children: [
+                        TabViewItem(movies),
                         TabViewItem(movies),
                         TabViewItem(movies),
                         TabViewItem(movies),
