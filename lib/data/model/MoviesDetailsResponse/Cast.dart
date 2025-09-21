@@ -1,9 +1,7 @@
+// ignore_for_file: file_names
+
 class Cast {
-  Cast({
-      this.name, 
-      this.characterName, 
-      this.urlSmallImage, 
-      this.imdbCode,});
+  Cast({this.name, this.characterName, this.urlSmallImage, this.imdbCode});
 
   Cast.fromJson(dynamic json) {
     name = json['name'];
@@ -24,5 +22,4 @@ class Cast {
     map['imdb_code'] = imdbCode;
     return map;
   }
-
 }

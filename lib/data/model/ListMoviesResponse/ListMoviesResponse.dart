@@ -1,12 +1,9 @@
+// ignore_for_file: file_names
+
 import 'Data.dart';
 
-
 class ListMoviesResponse {
-  ListMoviesResponse({
-      this.status, 
-      this.statusMessage, 
-      this.data, 
-      });
+  ListMoviesResponse({this.status, this.statusMessage, this.data});
 
   ListMoviesResponse.fromJson(dynamic json) {
     status = json['status'];

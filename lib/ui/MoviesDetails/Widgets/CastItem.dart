@@ -1,7 +1,7 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable, file_names, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
 
 import '../../../core/resources/AssetsManager.dart';
 import '../../../core/resources/ColorManager.dart';
@@ -10,12 +10,11 @@ import '../../../data/model/MoviesDetailsResponse/Cast.dart';
 class CastItem extends StatelessWidget {
   Cast cast_data;
 
-  CastItem(this.cast_data);
+  CastItem(this.cast_data, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-
       width: double.infinity,
       decoration: BoxDecoration(
         color: ColorManager.navbarColor,
@@ -58,7 +57,7 @@ class CastItem extends StatelessWidget {
                         context,
                       ).textTheme.bodySmall?.copyWith(color: Colors.white),
                     ),
-                    SizedBox(height: 11,),
+                    SizedBox(height: 11),
                     Text(
                       textAlign: TextAlign.start,
                       "caharcter: ${cast_data.characterName!}",

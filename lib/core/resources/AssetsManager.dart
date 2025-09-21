@@ -1,5 +1,8 @@
+// ignore_for_file: file_names, constant_identifier_names, duplicate_ignore
+
 abstract class AssetsManager {
   static const home = "assets/images/home.svg";
+  // ignore: constant_identifier_names
   static const selected_home = "assets/images/selected_home.svg";
   static const search = "assets/images/search.svg";
   static const selected_search = "assets/images/selected_search.svg";
@@ -43,4 +46,6 @@ abstract class AssetsManager {
   static const String yellow_hair_girl_avatar =
       "assets/images/avatars/y_h_g.png";
   static const String yellow_avatar = "assets/images/avatars/yellow.png";
+  static const String folder = "assets/images/Folder.svg";
+  static const String wish_list_icon = "assets/images/wish_list_icon.svg";
 }

@@ -1,12 +1,9 @@
+// ignore_for_file: file_names
+
 import 'Data.dart';
 
-
 class MoiveSuggestionsResponse {
-  MoiveSuggestionsResponse({
-      this.status, 
-      this.statusMessage, 
-      this.data, 
-      });
+  MoiveSuggestionsResponse({this.status, this.statusMessage, this.data});
 
   MoiveSuggestionsResponse.fromJson(dynamic json) {
     status = json['status'];
@@ -26,5 +23,4 @@ class MoiveSuggestionsResponse {
     }
     return map;
   }
-
 }

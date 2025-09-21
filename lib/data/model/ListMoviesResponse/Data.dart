@@ -1,5 +1,7 @@
 
 
+// ignore_for_file: file_names
+
 import '../MoviesDetailsResponse/Movie.dart';
 
 class Data {

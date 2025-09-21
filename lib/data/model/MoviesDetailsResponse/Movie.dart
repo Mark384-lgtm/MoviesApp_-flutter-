@@ -1,3 +1,5 @@
+// ignore_for_file: file_names
+
 import '../ListMoviesResponse/Torrents.dart';
 import 'Cast.dart';
 

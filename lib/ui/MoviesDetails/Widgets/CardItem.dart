@@ -1,12 +1,14 @@
+// ignore_for_file: must_be_immutable, file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import '../../../core/resources/ColorManager.dart';
 
 class CardItem extends StatelessWidget {
-  String _iconpth;
+  final String _iconpth;
   int count;
 
-  CardItem(this._iconpth,this.count);
+  CardItem(this._iconpth,this.count, {super.key});
   @override
   Widget build(BuildContext context) {
    return   Container(

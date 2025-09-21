@@ -1,9 +1,10 @@
+// ignore_for_file: deprecated_member_use
+
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../core/remote/network/ApiManger.dart';
 import '../../../core/resources/AssetsManager.dart';
 import '../../../core/resources/ColorManager.dart';
-import '../../../data/model/MoviesDetailsResponse/Cast.dart';
 import '../../../data/model/MoviesDetailsResponse/Movie.dart';
 import '../../Home/widgets/home_nav/widgets/MovieItem.dart';
 import '../Widgets/CardItem.dart';
@@ -12,337 +13,303 @@ import '../Widgets/GenreItem.dart';
 import '../Widgets/ScreenShotItem.dart';
 
 class MoviesDetailsScreen extends StatelessWidget {
+  const MoviesDetailsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
-    final movie_id = ModalRoute.of(context)!.settings.arguments as int;
-    print("mobie_id=${movie_id}");
+    final movieId = ModalRoute.of(context)!.settings.arguments as int;
+
     return Scaffold(
-      body: FutureBuilder(
-        future: ApiManger.getMovieDetails(movie_id),
+      backgroundColor: ColorManager.screen_background,
+      body: FutureBuilder<Movie?>(
+        future: ApiManger.getMovieDetails(movieId),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           }
-          if (snapshot.hasError) {
+
+          if (snapshot.hasError || snapshot.data == null) {
             return Center(
               child: Text(
-                snapshot.error.toString(),
+                'Error loading movie details',
                 style: Theme.of(context).textTheme.bodyMedium,
               ),
             );
           }
-          Movie? movie = snapshot.data;
-          print(
-            "ptint: ${movie?.descriptionFull.toString()}" ?? "no discription",
-          );
-          return SafeArea(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  SizedBox(
-                    height: 654,
-                    child: Stack(
-                      children: [
-                        Image.network(
-                          height: double.infinity,
-                          movie!.backgroundImageOriginal!,
-                          fit: BoxFit.fitHeight,
-                        ),
-                        Container(
-                          height: double.infinity,
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              colors: [
-                                ColorManager.screen_background.withOpacity(0.2),
-                                ColorManager.screen_background,
-                              ],
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: double.infinity,
-                          child: Column(
-                            children: [
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    IconButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      icon: Icon(
-                                        size: 29,
-                                        Icons.arrow_back_ios,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                    IconButton(
-                                      onPressed: () {},
-                                      icon: Icon(
-                                        size: 29,
-                                        Icons.bookmark,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              Spacer(),
-                              Image.asset(AssetsManager.play),
-                              Spacer(),
-                              Padding(
-                                padding: const EdgeInsets.symmetric(
-                                  horizontal: 8.0,
-                                ),
-                                child: Column(
-                                  children: [
-                                    Text(
-                                      textAlign: TextAlign.center,
-                                      movie.title!,
-                                      style: Theme.of(
-                                        context,
-                                      ).textTheme.bodyMedium,
-                                    ),
-                                    SizedBox(height: 15),
-                                    Text(
-                                      movie.year.toString(),
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .bodyMedium!
-                                          .copyWith(
-                                            color: ColorManager.grey,
-                                            fontSize: 20,
-                                          ),
-                                    ),
-                                    SizedBox(height: 8),
-                                    SizedBox(
-                                      width: double.infinity,
-                                      child: ElevatedButton(
-                                        onPressed: () {},
-                                        child: Text(
-                                          "Watch",
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .bodyMedium
-                                              ?.copyWith(fontSize: 20),
-                                        ),
-                                      ),
-                                    ),
-                                    SizedBox(height: 16),
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      children: [
-                                        CardItem(
-                                          AssetsManager.love,
-                                          movie.likeCount ?? 0,
-                                        ),
-                                        CardItem(
-                                          AssetsManager.duration,
-                                          movie.runtime ?? 0,
-                                        ),
-                                        CardItem(
-                                          AssetsManager.star,
-                                          movie.rating?.toInt() ?? 0,
-                                        ),
-                                      ],
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 20),
-                  Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Screen Shots",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 9),
-                                ScreenShotItem(
-                                  movie.mediumScreenshotImage1 ?? "",
-                                ),
-                                ScreenShotItem(
-                                  movie.mediumScreenshotImage2 ?? "",
-                                ),
-                                ScreenShotItem(
-                                  movie.mediumScreenshotImage3 ?? "",
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        SizedBox(
-                          height: 631,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Similar",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 9),
-                                FutureBuilder(
-                                  future: ApiManger.getMovieSuggestions(
-                                    movie_id,
-                                  ),
-                                  builder: (context, snapshot) {
-                                    if (snapshot.connectionState ==
-                                        ConnectionState.waiting) {
-                                      return Center(
-                                        child: CircularProgressIndicator(),
-                                      );
-                                    }
-                                    if (snapshot.hasError) {
-                                      return Center(
-                                        child: Text(
-                                          snapshot.error.toString(),
-                                          style: Theme.of(
-                                            context,
-                                          ).textTheme.bodyMedium,
-                                        ),
-                                      );
-                                    }
-                                    List<Movie> movies = snapshot.data!;
-                                    return GridView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount: movies.length,
-                                      gridDelegate:
-                                          SliverGridDelegateWithFixedCrossAxisCount(
-                                            childAspectRatio: 1 / 1.5,
-                                            crossAxisCount: 2,
-                                            crossAxisSpacing: 20,
-                                            mainAxisSpacing: 20,
-                                          ),
-                                      itemBuilder: (context, index) {
-                                        return MovieItem(movie: movies[index]);
-                                      },
-                                    );
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          //height: 274,
-                          width: double.infinity,
-                          child: SingleChildScrollView(
-                            physics: NeverScrollableScrollPhysics(),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  textAlign: TextAlign.left,
-                                  "Summary",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 9),
-                                Text(
-                                  movie.descriptionFull.toString() != ""
-                                      ? movie.descriptionFull.toString()
-                                      : "no Summary available",
-                                  style: Theme.of(context).textTheme.bodySmall
-                                      ?.copyWith(color: Colors.white),
-                                ),
-                                SizedBox(height: 9),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  textAlign: TextAlign.left,
-                                  "Cast",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                SizedBox(height: 9),
-                                ListView.separated(
-                                  separatorBuilder: (context, index) {
-                                    return SizedBox(height: 8);
-                                  },
-                                  shrinkWrap: true,
-                                  physics: NeverScrollableScrollPhysics(),
-                                  itemCount: movie.cast!.length,
-                                  itemBuilder: (context, index) {
-                                    return CastItem(movie.cast![index]);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        SizedBox(height: 16),
-                        SizedBox(
-                          width: double.infinity,
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  textAlign: TextAlign.left,
-                                  "Genres",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
-                                GridView.builder(
-                                  physics: NeverScrollableScrollPhysics(),
-                                  shrinkWrap: true,
-                                  itemCount: movie.genres!.length,
-                                  gridDelegate:
-                                      SliverGridDelegateWithFixedCrossAxisCount(
-                                        childAspectRatio: 3,
-                                        crossAxisCount: 3,
-                                        crossAxisSpacing: 11,
-                                        mainAxisSpacing: 11,
-                                      ),
-                                  itemBuilder: (context, index) {
-                                    return GenreItem(movie.genres![index]);
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
+
+          final movie = snapshot.data!;
+          return _buildMovieDetails(context, movie);
         },
       ),
+    );
+  }
+
+  Widget _buildMovieDetails(BuildContext context, Movie movie) {
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: IconButton(
+            icon: const Icon(
+              Icons.arrow_back_ios_new,
+              color: Colors.white,
+              size: 29,
+            ),
+            onPressed: () => Navigator.pop(context),
+          ),
+          actions: [
+            IconButton(
+              icon: const Icon(Icons.bookmark, color: Colors.white, size: 29),
+              onPressed: () {},
+            ),
+          ],
+          expandedHeight: 400,
+          flexibleSpace: FlexibleSpaceBar(background: _buildMovieHeader(movie)),
+        ),
+
+        SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildScreenShotsSection(context, movie),
+                const SizedBox(height: 24),
+                _buildSimilarMoviesSection(context, movie.id!),
+                const SizedBox(height: 24),
+                _buildSummarySection(context, movie),
+                const SizedBox(height: 24),
+                _buildCastSection(context, movie),
+                const SizedBox(height: 24),
+                _buildGenresSection(context, movie),
+                const SizedBox(height: 24),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMovieHeader(Movie movie) {
+    return Stack(
+      children: [
+        Image.network(
+          movie.backgroundImageOriginal ?? '',
+          height: 400,
+          width: double.infinity,
+          fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) =>
+              Container(color: Colors.grey[800], height: 400),
+        ),
+        Container(
+          height: 400,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.transparent,
+                ColorManager.screen_background.withOpacity(0.8),
+                ColorManager.screen_background,
+              ],
+              begin: Alignment.topCenter,
+              end: Alignment.bottomCenter,
+            ),
+          ),
+        ),
+        Positioned(
+          bottom: 20,
+          left: 0,
+          right: 0,
+          child: Column(
+            children: [
+              Image.asset(AssetsManager.play, height: 60),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Text(
+                  movie.title ?? 'No Title',
+                  textAlign: TextAlign.center,
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(height: 8),
+              Text(
+                movie.year?.toString() ?? '',
+                style: TextStyle(color: ColorManager.grey, fontSize: 18),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: ColorManager.red,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                    ),
+                    child: const Text(
+                      "Watch",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    CardItem(AssetsManager.love, movie.likeCount ?? 0),
+                    CardItem(AssetsManager.duration, movie.runtime ?? 0),
+                    CardItem(AssetsManager.star, movie.rating?.toInt() ?? 0),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildScreenShotsSection(BuildContext context, Movie movie) {
+    final screenshots = [
+      movie.mediumScreenshotImage1,
+      movie.mediumScreenshotImage2,
+      movie.mediumScreenshotImage3,
+    ].where((url) => url != null && url.isNotEmpty).toList();
+
+    if (screenshots.isEmpty) return const SizedBox();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Screen Shots", style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: 12),
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: screenshots.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            return ScreenShotItem(screenshots[index]!);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildSimilarMoviesSection(BuildContext context, int movieId) {
+    return FutureBuilder<List<Movie>?>(
+      future: ApiManger.getMovieSuggestions(movieId),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        }
+
+        if (snapshot.hasError ||
+            snapshot.data == null ||
+            snapshot.data!.isEmpty) {
+          return const SizedBox();
+        }
+
+        final movies = snapshot.data!;
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Similar", style: Theme.of(context).textTheme.bodyMedium),
+            const SizedBox(height: 12),
+            GridView.builder(
+              physics: const NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 16,
+                mainAxisSpacing: 16,
+                childAspectRatio: 0.7,
+              ),
+              itemCount: movies.length,
+              itemBuilder: (context, index) {
+                return MovieItem(movie: movies[index]);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _buildSummarySection(BuildContext context, Movie movie) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Summary", style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: 12),
+        Text(
+          movie.descriptionFull?.isNotEmpty == true
+              ? movie.descriptionFull!
+              : movie.summary?.isNotEmpty == true
+              ? movie.summary!
+              : "No summary available",
+          style: const TextStyle(color: Colors.white70, fontSize: 16),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildCastSection(BuildContext context, Movie movie) {
+    if (movie.cast == null || movie.cast!.isEmpty) return const SizedBox();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Cast", style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: 12),
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: movie.cast!.length,
+          separatorBuilder: (context, index) => const SizedBox(height: 12),
+          itemBuilder: (context, index) {
+            return CastItem(movie.cast![index]);
+          },
+        ),
+      ],
+    );
+  }
+
+  Widget _buildGenresSection(BuildContext context, Movie movie) {
+    if (movie.genres == null || movie.genres!.isEmpty) return const SizedBox();
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text("Genres", style: Theme.of(context).textTheme.bodyMedium),
+        const SizedBox(height: 12),
+        GridView.builder(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            childAspectRatio: 2.5,
+          ),
+          itemCount: movie.genres!.length,
+          itemBuilder: (context, index) {
+            return GenreItem(movie.genres![index]);
+          },
+        ),
+      ],
     );
   }
 }
