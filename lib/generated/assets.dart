@@ -2,8 +2,6 @@
 // class Assets {
 //   Assets._();
 //
-//   static const String assetsFolder = 'assets/Folder.svg';
-//   static const String assetsWishListIcon = 'assets/wish_list_icon.svg';
 //   static const String authentication image316662P9J1RJ122 1 = 'assets/images/Authentication image/316662-P9J1RJ-122 1.png';
 //   static const String authentication imageEmailIcon = 'assets/images/Authentication image/Email_Icon.svg';
 //   static const String authentication imageForgot password = 'assets/images/Authentication image/Forgot password.png';
@@ -25,8 +23,10 @@
 //   static const String imagesAuthentication imageLogo = 'assets/images/Authentication image/logo.svg';
 //   static const String imagesAvilableNow = 'assets/images/Avilable_now.png';
 //   static const String imagesExplore = 'assets/images/explore.svg';
+//   static const String imagesFolder = 'assets/images/folder.svg';
 //   static const String imagesHome = 'assets/images/home.svg';
 //   static const String imagesPlay = 'assets/images/play.png';
+//   static const String imagesPopcorn = 'assets/images/popcorn.png';
 //   static const String imagesProfile = 'assets/images/profile.svg';
 //   static const String imagesSearch = 'assets/images/search.svg';
 //   static const String imagesSelectedExplore = 'assets/images/selected_explore.svg';
@@ -35,6 +35,7 @@
 //   static const String imagesSelectedSearch = 'assets/images/selected_search.svg';
 //   static const String imagesStar = 'assets/images/star.svg';
 //   static const String imagesWatchNow = 'assets/images/watch_now.png';
+//   static const String imagesWishListIcon = 'assets/images/wish_list_icon.svg';
 //   static const String languageImagesARsvg = 'assets/images/language_images/ARsvg.svg';
 //   static const String languageImagesEN = 'assets/images/language_images/EN.svg';
 //

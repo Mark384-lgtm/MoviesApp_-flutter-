@@ -46,6 +46,7 @@ abstract class AssetsManager {
   static const String yellow_hair_girl_avatar =
       "assets/images/avatars/y_h_g.png";
   static const String yellow_avatar = "assets/images/avatars/yellow.png";
-  static const String folder = "assets/images/Folder.svg";
+  static const String folder = "assets/images/folder.svg";
   static const String wish_list_icon = "assets/images/wish_list_icon.svg";
+  static const String popcorn = "assets/images/popcorn.png";
 }
