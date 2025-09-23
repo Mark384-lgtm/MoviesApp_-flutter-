@@ -12,10 +12,7 @@ import '../../core/reusable_components/custom_button.dart';
 import '../../core/reusable_components/custom_switch.dart';
 import '../../core/reusable_components/custom_textField.dart';
 
-
 class RegisterScreen extends StatefulWidget {
-
-
   const RegisterScreen({super.key});
 
   @override
@@ -80,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Registration successful')),
         );
-        Navigator.pushReplacementNamed(context, RouteManager.HomeScreen);
+        Navigator.pushReplacementNamed(context, RouteManager.onboarding);
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Registration failed. Please try again.';
@@ -242,7 +239,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                           ),
                                           child: Icon(
                                             Icons.check,
-                                            color: ColorManager.screen_background,
+                                            color:
+                                                ColorManager.screen_background,
                                             size: 16,
                                           ),
                                         ),

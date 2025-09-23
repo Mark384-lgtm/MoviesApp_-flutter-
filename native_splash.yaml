@@ -1,0 +1,14 @@
+flutter_native_splash:
+  color: "#121312"               # Background color (dark gray)
+  image: assets/images/Authentication image/logo.png  # Main splash image
+  branding: assets/images/branding.png  # Optional branding logo (PNG)
+  android_gravity: center        # Centers content on Android
+  ios_content_mode: center       # Centers content on iOS
+  fullscreen: true               # Fullscreen splash screen
+  android: true                  # Enable for Android
+  ios: true                      # Enable for iOS
+
+  android_12: # Android 12+ specific settings
+    image: assets/images/Authentication image/logo.png  # Same as parent
+    color: "#121312"
+    branding: assets/images/branding.png

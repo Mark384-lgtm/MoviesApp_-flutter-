@@ -53,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
             password: _passwordController.text.trim(),
           );
       if (userCredential.user != null) {
-        Navigator.pushReplacementNamed(context, RouteManager.HomeScreen);
+        Navigator.pushReplacementNamed(context, RouteManager.onboarding);
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'An error occurred. Please try again.';
@@ -101,7 +101,7 @@ class _LoginScreenState extends State<LoginScreen> {
         credential,
       );
       if (userCredential.user != null) {
-        Navigator.pushReplacementNamed(context, RouteManager.HomeScreen);
+        Navigator.pushReplacementNamed(context, RouteManager.onboarding);
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Google sign-in failed. Please try again.';

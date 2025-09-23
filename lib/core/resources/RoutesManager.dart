@@ -7,4 +7,6 @@ abstract class RouteManager {
   static const login = "Login";
   static const register = "Register";
   static const profile = "profile";
+  static const onboarding = "onboarding";
+  static const EditProfileScreen = "edit_profile";
 }

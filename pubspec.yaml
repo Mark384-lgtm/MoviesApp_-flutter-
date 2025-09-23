@@ -22,10 +22,20 @@ dependencies:
   dio: ^5.9.0
 
   firebase_core: any
+  flutter_native_splash: ^2.4.6
+  flutter_launcher_icons: ^0.14.4
+  cloud_firestore: ^5.6.12
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/Authentication image/logo.png"  # 1024x1024 recommended
+  adaptive_icon_background: "#121312"  # Optional background
+  adaptive_icon_foreground: "assets/images/Authentication image/logo.png"
 
 flutter:
   uses-material-design: true
@@ -35,3 +45,4 @@ flutter:
     - assets/images/avatars/
     - assets/images/language_images/
     - assets/images/
+    - assets/images/onboarding_images/

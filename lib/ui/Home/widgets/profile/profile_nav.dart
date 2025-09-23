@@ -1,12 +1,44 @@
-// ignore_for_file: deprecated_member_use
+// ignore_for_file: deprecated_member_use, unused_element, use_build_context_synchronously
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movies/core/reusable_components/custom_button.dart';
 
 import '../../../../core/resources/AssetsManager.dart';
 import '../../../../core/resources/ColorManager.dart';
 import 'edit_profile_screen.dart';
+
+Future<void> _signOut(BuildContext context) async {
+  final confirmed =
+      await showDialog<bool>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: Text('Confirm Sign Out'),
+          content: Text('Are you sure you want to sign out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: Text('Sign Out'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+
+  if (confirmed) {
+    try {
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+    } catch (_) {}
+    Navigator.pushNamedAndRemoveUntil(context, '/Login', (route) => false);
+  }
+}
 
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
@@ -66,34 +98,6 @@ class _ProfileHeader extends StatelessWidget {
     );
   }
 
-  void _showExitConfirmation(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Exit App'),
-          content: const Text('Are you sure you want to exit the application?'),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-                // You can add app exit logic here
-                // SystemNavigator.pop(); // Uncomment to actually exit the app
-              },
-              child: const Text('Exit'),
-            ),
-          ],
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -107,7 +111,7 @@ class _ProfileHeader extends StatelessWidget {
           const SizedBox(height: 16),
           _ActionButtons(
             onEditProfile: () => _navigateToEditProfile(context),
-            onExit: () => _showExitConfirmation(context),
+            onExit: () => _signOut(context),
           ),
         ],
       ),
