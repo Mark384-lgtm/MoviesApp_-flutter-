@@ -1,18 +1,21 @@
+// ignore_for_file: file_names
+
 class Torrents {
   Torrents({
-      this.url, 
-      this.hash, 
-      this.quality, 
-      this.isRepack, 
-      this.videoCodec, 
-      this.bitDepth, 
-      this.audioChannels, 
-      this.seeds, 
-      this.peers, 
-      this.size, 
-      this.sizeBytes, 
-      this.dateUploaded, 
-      this.dateUploadedUnix,});
+    this.url,
+    this.hash,
+    this.quality,
+    this.isRepack,
+    this.videoCodec,
+    this.bitDepth,
+    this.audioChannels,
+    this.seeds,
+    this.peers,
+    this.size,
+    this.sizeBytes,
+    this.dateUploaded,
+    this.dateUploadedUnix,
+  });
 
   Torrents.fromJson(dynamic json) {
     url = json['url'];
@@ -60,5 +63,4 @@ class Torrents {
     map['date_uploaded_unix'] = dateUploadedUnix;
     return map;
   }
-
 }

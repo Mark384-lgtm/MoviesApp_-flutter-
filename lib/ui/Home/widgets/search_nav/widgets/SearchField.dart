@@ -1,11 +1,14 @@
+// ignore_for_file: must_be_immutable, file_names, non_constant_identifier_names
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../../../core/resources/AssetsManager.dart';
 import '../../../../../core/resources/ColorManager.dart';
 
 class SearchField extends StatefulWidget {
   void Function(String? term) get_Querterm;
-  SearchField(this.get_Querterm ,this.text);
+  SearchField(this.get_Querterm, this.text, {super.key});
   String? text;
   @override
   State<SearchField> createState() => _SearchFieldState();
@@ -17,8 +20,8 @@ class _SearchFieldState extends State<SearchField> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _controller=TextEditingController();
-    _controller.text=widget.text==null?"":widget.text!;
+    _controller = TextEditingController();
+    _controller.text = widget.text == null ? "" : widget.text!;
   }
 
   @override
@@ -27,6 +30,7 @@ class _SearchFieldState extends State<SearchField> {
     super.dispose();
     _controller.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return TextField(

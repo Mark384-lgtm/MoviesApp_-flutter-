@@ -1,0 +1,90 @@
+{
+  "project_info": {
+    "project_number": "158516261779",
+    "project_id": "movies-20f8c",
+    "storage_bucket": "movies-20f8c.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158516261779:android:3b8b65fa5077ffa95bae66",
+        "android_client_info": {
+          "package_name": "com.ahmedali.movies"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158516261779-n7m6nvi6aoe43cjjchd936g9l7je8co1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ahmedali.movies",
+            "certificate_hash": "ec17efdda55a274b4fc4979287af289af5314a96"
+          }
+        },
+        {
+          "client_id": "158516261779-o54hd12sp4c34nnur9ujo8qvc06rm11l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDC02B9cx91T-84XuwWwueN2NplZqSjPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158516261779-at2dbvv0kk6ceg79bckm5n77qt151ejc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "158516261779-pbhv62n793t2du6g0pl5hgl882mrv82h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ahmedali.movies"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:158516261779:android:3b0e93d1b2bb1f575bae66",
+        "android_client_info": {
+          "package_name": "com.example.movies_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "158516261779-o54hd12sp4c34nnur9ujo8qvc06rm11l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDC02B9cx91T-84XuwWwueN2NplZqSjPM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "158516261779-at2dbvv0kk6ceg79bckm5n77qt151ejc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "158516261779-pbhv62n793t2du6g0pl5hgl882mrv82h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.ahmedali.movies"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,20 +1,18 @@
+// ignore_for_file: use_build_context_synchronously, curly_braces_in_flow_control_structures, avoid_print
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:movies/core/resources/RoutesManager.dart';
 
-
 import '../../core/resources/AssetsManager.dart';
 import '../../core/resources/ColorManager.dart';
 import '../../core/reusable_components/custom_button.dart';
 import '../../core/reusable_components/custom_switch.dart';
 import '../../core/reusable_components/custom_textField.dart';
-import 'forget_pass_screen.dart';
-import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
-
   const LoginScreen({super.key});
 
   @override
@@ -59,9 +57,9 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'An error occurred. Please try again.';
-      if (e.code == 'user-not-found')
+      if (e.code == 'user-not-found') {
         errorMessage = 'No user found with this email.';
-      else if (e.code == 'wrong-password')
+      } else if (e.code == 'wrong-password')
         errorMessage = 'Incorrect password.';
       else if (e.code == 'invalid-email')
         errorMessage = 'Invalid email address.';
@@ -103,19 +101,20 @@ class _LoginScreenState extends State<LoginScreen> {
         credential,
       );
       if (userCredential.user != null) {
-        Navigator.pushReplacementNamed(context,RouteManager.HomeScreen);
+        Navigator.pushReplacementNamed(context, RouteManager.HomeScreen);
       }
     } on FirebaseAuthException catch (e) {
       String errorMessage = 'Google sign-in failed. Please try again.';
-      if (e.code == 'account-exists-with-different-credential')
+      if (e.code == 'account-exists-with-different-credential') {
         errorMessage = 'Account exists with different credentials.';
-      else if (e.code == 'invalid-credential')
+      } else if (e.code == 'invalid-credential')
         errorMessage = 'The Google credential is invalid or expired.';
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
       );
     } catch (e) {
+      print("error : $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Google sign-in failed. Try again later.'),
@@ -156,10 +155,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 iconAsset: AssetsManager.EmailIcon,
                 keyboardType: TextInputType.emailAddress,
                 validator: (value) {
-                  if (value == null || value.isEmpty)
+                  if (value == null || value.isEmpty) {
                     return 'Please enter your email';
-                  if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(value))
+                  }
+                  if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(value)) {
                     return 'Please enter a valid email';
+                  }
                   return null;
                 },
                 inputFormatters: [],
@@ -179,10 +180,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   onPressed: _togglePasswordVisibility,
                 ),
                 validator: (value) {
-                  if (value == null || value.isEmpty)
+                  if (value == null || value.isEmpty) {
                     return 'Please enter your password';
-                  if (value.length < 6)
+                  }
+                  if (value.length < 6) {
                     return 'Password must be at least 6 characters';
+                  }
                   return null;
                 },
                 inputFormatters: [],
@@ -230,9 +233,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 padding: const EdgeInsets.symmetric(horizontal: 26),
                 child: Row(
                   children: [
-                    const Expanded(
-                      child: Divider(color: ColorManager.yellow),
-                    ),
+                    const Expanded(child: Divider(color: ColorManager.yellow)),
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 16),
                       child: Text(
@@ -241,9 +242,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             ?.copyWith(color: ColorManager.yellow),
                       ),
                     ),
-                    const Expanded(
-                      child: Divider(color: ColorManager.yellow),
-                    ),
+                    const Expanded(child: Divider(color: ColorManager.yellow)),
                   ],
                 ),
               ),
@@ -276,7 +275,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             const SizedBox(width: 12),
                             Text(
                               "Login with Google",
-                              style: TextStyle(color: ColorManager.screen_background),
+                              style: TextStyle(
+                                color: ColorManager.screen_background,
+                              ),
                             ),
                           ],
                         ),

@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable, file_names
+
 import 'package:flutter/cupertino.dart';
 
 import '../../../../../data/model/MoviesDetailsResponse/Movie.dart';
@@ -7,7 +9,7 @@ class TabViewItem extends StatelessWidget {
 
   List<Movie>? movies;
 
-  TabViewItem(this.movies);
+  TabViewItem(this.movies, {super.key});
   @override
   Widget build(BuildContext context) {
    return  GridView.builder(

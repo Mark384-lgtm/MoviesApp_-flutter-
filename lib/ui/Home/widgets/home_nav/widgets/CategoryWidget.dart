@@ -1,8 +1,8 @@
+// ignore_for_file: must_be_immutable, file_names
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart'
     show TextButton, Theme, CircularProgressIndicator, Colors;
-
-
 
 import '../../../../../core/remote/network/ApiManger.dart';
 import '../../../../../data/model/MoviesDetailsResponse/Movie.dart';
@@ -11,7 +11,7 @@ import 'MovieItem.dart';
 class Categorywidget extends StatelessWidget {
   String category;
 
-  Categorywidget({required this.category});
+  Categorywidget({super.key, required this.category});
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +61,7 @@ class Categorywidget extends StatelessWidget {
                 },
                 scrollDirection: Axis.horizontal,
                 itemBuilder: (context, index) {
-                  return MovieItem(
-                  movie: movieslist[index],
-                  );
+                  return MovieItem(movie: movieslist[index]);
                 },
                 itemCount: movieslist.length,
               ),

@@ -1,9 +1,10 @@
+// ignore_for_file: constant_identifier_names, file_names
 
-
-abstract class RouteManager{
-  static const HomeScreen="HomeScreen";
-  static const MoviesDetailsScreen="MoviesDetailsScreen";
+abstract class RouteManager {
+  static const HomeScreen = "HomeScreen";
+  static const MoviesDetailsScreen = "MoviesDetailsScreen";
   static const forgetPassword = "ForgetPassword";
   static const login = "Login";
   static const register = "Register";
+  static const profile = "profile";
 }

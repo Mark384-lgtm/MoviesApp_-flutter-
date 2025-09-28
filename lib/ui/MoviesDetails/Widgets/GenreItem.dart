@@ -1,4 +1,5 @@
-import 'package:flutter/cupertino.dart';
+// ignore_for_file: must_be_immutable, file_names
+
 import 'package:flutter/material.dart';
 
 import '../../../core/resources/ColorManager.dart';
@@ -6,7 +7,7 @@ import '../../../core/resources/ColorManager.dart';
 class GenreItem extends StatelessWidget {
   String genre;
 
-  GenreItem(this.genre);
+  GenreItem(this.genre, {super.key});
 
   @override
   Widget build(BuildContext context) {

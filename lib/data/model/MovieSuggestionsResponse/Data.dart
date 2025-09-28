@@ -1,10 +1,9 @@
+// ignore_for_file: file_names
+
 import '../MoviesDetailsResponse/Movie.dart';
 
-
 class Data {
-  Data({
-      this.movieCount, 
-      this.movies,});
+  Data({this.movieCount, this.movies});
 
   Data.fromJson(dynamic json) {
     movieCount = json['movie_count'];
@@ -26,5 +25,4 @@ class Data {
     }
     return map;
   }
-
 }
