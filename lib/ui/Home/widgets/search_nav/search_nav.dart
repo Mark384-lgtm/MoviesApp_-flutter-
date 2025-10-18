@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable, camel_case_types, non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:movies/ui/Home/widgets/search_nav/widgets/SearchField.dart';
 
@@ -7,62 +5,90 @@ import '../../../../core/remote/network/ApiManger.dart';
 import '../../../../data/model/MoviesDetailsResponse/Movie.dart';
 import '../home_nav/widgets/MovieItem.dart';
 
-class search_nav extends StatefulWidget {
-  String? query_term;
+class SearchNav extends StatefulWidget {
+  const SearchNav({super.key});
 
-  search_nav({super.key});
   @override
-  State<search_nav> createState() => _search_navState();
+  State<SearchNav> createState() => _SearchNavState();
 }
 
-class _search_navState extends State<search_nav> {
+class _SearchNavState extends State<SearchNav> {
+  String? queryTerm;
+
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ApiManger.getListMovies(query_term: widget.query_term),
+    return FutureBuilder<List<Movie>?>(
+      future: ApiManger.getListMovies(query_term: queryTerm),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         }
+
         if (snapshot.hasError) {
           return Center(
-            child: Text(
-              snapshot.error.toString(),
-              style: Theme.of(context).textTheme.bodyMedium,
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Text(
+                'Error searching movies: ${snapshot.error}',
+                style: Theme.of(
+                  context,
+                ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                textAlign: TextAlign.center,
+              ),
             ),
           );
         }
+
         List<Movie>? movies = snapshot.data;
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Column(
-            children: [
-              SearchField(get_QueryTerm, widget.query_term),
-              SizedBox(height: 12.28),
-              Expanded(
-                child: GridView.builder(
-                  itemCount: movies?.length ?? 0,
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 0.7,
-                    mainAxisSpacing: 8,
-                    crossAxisSpacing: 16,
-                    crossAxisCount: 2,
-                  ),
-                  itemBuilder: (context, index) {
-                    return MovieItem(movie: movies![index]);
-                  },
-                ),
+
+        return LayoutBuilder(
+          builder: (context, constraints) {
+            final isSmallScreen = constraints.maxWidth < 350;
+
+            return Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: isSmallScreen ? 12 : 16,
               ),
-            ],
-          ),
+              child: Column(
+                children: [
+                  SearchField(_updateQueryTerm, queryTerm),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: movies == null || movies.isEmpty
+                        ? Center(
+                            child: Text(
+                              queryTerm == null || queryTerm!.isEmpty
+                                  ? 'Search for movies'
+                                  : 'No movies found',
+                              style: const TextStyle(color: Colors.white70),
+                            ),
+                          )
+                        : GridView.builder(
+                            itemCount: movies.length,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                                  childAspectRatio: 0.7,
+                                  mainAxisSpacing: 8,
+                                  crossAxisSpacing: isSmallScreen ? 8 : 16,
+                                  crossAxisCount: isSmallScreen ? 2 : 2,
+                                ),
+                            itemBuilder: (context, index) {
+                              return MovieItem(movie: movies[index]);
+                            },
+                          ),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
   }
 
-  void get_QueryTerm(String? term) {
+  void _updateQueryTerm(String? term) {
     setState(() {
-      widget.query_term = term;
+      queryTerm = term;
     });
   }
 }

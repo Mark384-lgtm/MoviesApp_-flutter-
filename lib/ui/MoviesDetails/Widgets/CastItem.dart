@@ -1,5 +1,3 @@
-// ignore_for_file: must_be_immutable, file_names, non_constant_identifier_names
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -8,70 +6,83 @@ import '../../../core/resources/ColorManager.dart';
 import '../../../data/model/MoviesDetailsResponse/Cast.dart';
 
 class CastItem extends StatelessWidget {
-  Cast cast_data;
+  final Cast castData;
 
-  CastItem(this.cast_data, {super.key});
+  const CastItem(this.castData, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: ColorManager.navbarColor,
-        borderRadius: BorderRadiusGeometry.circular(16),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            ClipRRect(
-              borderRadius: BorderRadiusGeometry.circular(10),
-              child: cast_data.urlSmallImage == null
-                  ? SvgPicture.asset(
-                      height: 70,
-                      width: 70,
-                      AssetsManager.profile,
-                      fit: BoxFit.fill,
-                    )
-                  : Image.network(
-                      height: 70,
-                      width: 70,
-                      cast_data.urlSmallImage!,
-                      fit: BoxFit.fill,
-                    ),
-            ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxWidth < 350;
 
-            SizedBox(width: 10),
-
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      textAlign: TextAlign.start,
-                      "name: ${cast_data.name!}",
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.white),
-                    ),
-                    SizedBox(height: 11),
-                    Text(
-                      textAlign: TextAlign.start,
-                      "caharcter: ${cast_data.characterName!}",
-                      style: Theme.of(
-                        context,
-                      ).textTheme.bodySmall?.copyWith(color: Colors.white),
-                    ),
-                  ],
+        return Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: ColorManager.navbarColor,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Padding(
+            padding: EdgeInsets.all(isSmallScreen ? 8.0 : 12.0),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: castData.urlSmallImage == null
+                      ? SvgPicture.asset(
+                          AssetsManager.profile,
+                          height: isSmallScreen ? 50 : 70,
+                          width: isSmallScreen ? 50 : 70,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.network(
+                          castData.urlSmallImage!,
+                          height: isSmallScreen ? 50 : 70,
+                          width: isSmallScreen ? 50 : 70,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return SvgPicture.asset(
+                              AssetsManager.profile,
+                              height: isSmallScreen ? 50 : 70,
+                              width: isSmallScreen ? 50 : 70,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        ),
                 ),
-              ),
+                SizedBox(width: isSmallScreen ? 8 : 12),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "name: ${castData.name ?? 'Unknown'}",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                          fontSize: isSmallScreen ? 12 : 14,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      SizedBox(height: isSmallScreen ? 4 : 8),
+                      Text(
+                        "character: ${castData.characterName ?? 'Unknown'}",
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color: Colors.white,
+                          fontSize: isSmallScreen ? 12 : 14,
+                        ),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }

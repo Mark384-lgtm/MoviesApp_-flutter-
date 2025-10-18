@@ -30,9 +30,15 @@ class MoviesDetailsScreen extends StatelessWidget {
 
           if (snapshot.hasError || snapshot.data == null) {
             return Center(
-              child: Text(
-                'Error loading movie details',
-                style: Theme.of(context).textTheme.bodyMedium,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Text(
+                  'Error loading movie details',
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium?.copyWith(color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
               ),
             );
           }
@@ -54,20 +60,19 @@ class MoviesDetailsScreen extends StatelessWidget {
             icon: const Icon(
               Icons.arrow_back_ios_new,
               color: Colors.white,
-              size: 29,
+              size: 24,
             ),
             onPressed: () => Navigator.pop(context),
           ),
           actions: [
             IconButton(
-              icon: const Icon(Icons.bookmark, color: Colors.white, size: 29),
+              icon: const Icon(Icons.bookmark, color: Colors.white, size: 24),
               onPressed: () {},
             ),
           ],
-          expandedHeight: 400,
+          expandedHeight: MediaQuery.of(context).size.height * 0.4,
           flexibleSpace: FlexibleSpaceBar(background: _buildMovieHeader(movie)),
         ),
-
         SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -121,63 +126,135 @@ class MoviesDetailsScreen extends StatelessWidget {
           bottom: 20,
           left: 0,
           right: 0,
-          child: Column(
-            children: [
-              Image.asset(AssetsManager.play, height: 60),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Text(
-                  movie.title ?? 'No Title',
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
+          child: LayoutBuilder(
+            builder: (context, constraints) {
+              final isSmallScreen = constraints.maxWidth < 350;
+              final isVerySmallScreen = constraints.maxWidth < 300;
+
+              return Column(
+                children: [
+                  Image.asset(
+                    AssetsManager.play,
+                    height: isSmallScreen ? 40 : 60,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                movie.year?.toString() ?? '',
-                style: TextStyle(color: ColorManager.grey, fontSize: 18),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: ElevatedButton(
-                    onPressed: () {},
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: ColorManager.red,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                    ),
-                    child: const Text(
-                      "Watch",
-                      style: TextStyle(fontSize: 18, color: Colors.white),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      movie.title ?? 'No Title',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isSmallScreen ? 20 : 24,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    CardItem(AssetsManager.love, movie.likeCount ?? 0),
-                    CardItem(AssetsManager.duration, movie.runtime ?? 0),
-                    CardItem(AssetsManager.star, movie.rating?.toInt() ?? 0),
-                  ],
-                ),
-              ),
-            ],
+                  const SizedBox(height: 8),
+                  Text(
+                    movie.year?.toString() ?? '',
+                    style: TextStyle(
+                      color: ColorManager.grey,
+                      fontSize: isSmallScreen ? 16 : 18,
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ColorManager.red,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                        child: Text(
+                          "Watch",
+                          style: TextStyle(
+                            fontSize: isSmallScreen ? 16 : 18,
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
+
+                  // FIXED: Responsive CardItems row
+                  _buildCardItemsRow(movie, isSmallScreen, isVerySmallScreen),
+                ],
+              );
+            },
           ),
         ),
       ],
+    );
+  }
+
+  Widget _buildCardItemsRow(
+    Movie movie,
+    bool isSmallScreen,
+    bool isVerySmallScreen,
+  ) {
+    // For very small screens, use a column layout
+    if (isVerySmallScreen) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          children: [
+            CardItem(AssetsManager.love, movie.likeCount ?? 0),
+            const SizedBox(height: 8),
+            CardItem(AssetsManager.duration, movie.runtime ?? 0),
+            const SizedBox(height: 8),
+            CardItem(AssetsManager.star, movie.rating?.toInt() ?? 0),
+          ],
+        ),
+      );
+    }
+
+    // For small screens, reduce spacing
+    if (isSmallScreen) {
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Flexible(child: CardItem(AssetsManager.love, movie.likeCount ?? 0)),
+            const SizedBox(width: 8),
+            Flexible(
+              child: CardItem(AssetsManager.duration, movie.runtime ?? 0),
+            ),
+            const SizedBox(width: 8),
+            Flexible(
+              child: CardItem(AssetsManager.star, movie.rating?.toInt() ?? 0),
+            ),
+          ],
+        ),
+      );
+    }
+
+    // For normal screens
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Flexible(child: CardItem(AssetsManager.love, movie.likeCount ?? 0)),
+          const SizedBox(width: 12),
+          Flexible(child: CardItem(AssetsManager.duration, movie.runtime ?? 0)),
+          const SizedBox(width: 12),
+          Flexible(
+            child: CardItem(AssetsManager.star, movie.rating?.toInt() ?? 0),
+          ),
+        ],
+      ),
     );
   }
 
@@ -193,7 +270,13 @@ class MoviesDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Screen Shots", style: Theme.of(context).textTheme.bodyMedium),
+        Text(
+          "Screen Shots",
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 12),
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
@@ -226,12 +309,18 @@ class MoviesDetailsScreen extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Similar", style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              "Similar",
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             const SizedBox(height: 12),
             GridView.builder(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 16,
                 mainAxisSpacing: 16,
@@ -252,7 +341,13 @@ class MoviesDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Summary", style: Theme.of(context).textTheme.bodyMedium),
+        Text(
+          "Summary",
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 12),
         Text(
           movie.descriptionFull?.isNotEmpty == true
@@ -272,7 +367,13 @@ class MoviesDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Cast", style: Theme.of(context).textTheme.bodyMedium),
+        Text(
+          "Cast",
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 12),
         ListView.separated(
           physics: const NeverScrollableScrollPhysics(),
@@ -293,7 +394,13 @@ class MoviesDetailsScreen extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Genres", style: Theme.of(context).textTheme.bodyMedium),
+        Text(
+          "Genres",
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
         const SizedBox(height: 12),
         GridView.builder(
           physics: const NeverScrollableScrollPhysics(),

@@ -1,33 +1,39 @@
-// ignore_for_file: must_be_immutable, file_names
-
 import 'package:flutter/material.dart';
 
 import '../../../core/resources/ColorManager.dart';
 
 class GenreItem extends StatelessWidget {
-  String genre;
+  final String genre;
 
-  GenreItem(this.genre, {super.key});
+  const GenreItem(this.genre, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      //  height: 36,
-      //width: 122,
-      //padding: EdgeInsets.symmetric(horizontal: 8),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: ColorManager.navbarColor,
-        borderRadius: BorderRadiusGeometry.circular(16),
-      ),
-      child: Text(
-        maxLines: 1,
-        textAlign: TextAlign.center,
-        genre,
-        style: Theme.of(
-          context,
-        ).textTheme.bodySmall?.copyWith(color: Colors.white),
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxWidth < 350;
+
+        return Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: ColorManager.navbarColor,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: isSmallScreen ? 8 : 12,
+            vertical: isSmallScreen ? 8 : 12,
+          ),
+          child: Text(
+            genre,
+            maxLines: 1,
+            textAlign: TextAlign.center,
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+              color: Colors.white,
+              fontSize: isSmallScreen ? 12 : 14,
+            ),
+          ),
+        );
+      },
     );
   }
 }

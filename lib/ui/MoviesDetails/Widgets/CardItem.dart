@@ -1,33 +1,81 @@
-// ignore_for_file: must_be_immutable, file_names
-
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
 import '../../../core/resources/ColorManager.dart';
 
 class CardItem extends StatelessWidget {
-  final String _iconpth;
-  int count;
+  final String iconPath;
+  final int count;
 
-  CardItem(this._iconpth,this.count, {super.key});
+  const CardItem(this.iconPath, this.count, {super.key});
+
   @override
   Widget build(BuildContext context) {
-   return   Container(
-     decoration: BoxDecoration(
-       color: ColorManager.navbarColor,
-       borderRadius: BorderRadiusGeometry.circular(16),
-     ),
-     child: Padding(
-       padding: const EdgeInsets.symmetric(horizontal: 22),
-       child: Row(
-         mainAxisSize: MainAxisSize.min,
-         children: [
-           SvgPicture.asset(_iconpth),
-           SizedBox(width: 14,),
-           Text(count.toString()),
-         ],
-       ),
-     ),
-   );
-  }
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxWidth < 350;
+        final isVerySmallScreen = constraints.maxWidth < 300;
 
+        return Container(
+          constraints: BoxConstraints(minWidth: isVerySmallScreen ? 80 : 90),
+          decoration: BoxDecoration(
+            color: ColorManager.navbarColor,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          padding: EdgeInsets.symmetric(
+            horizontal: isVerySmallScreen
+                ? 12
+                : isSmallScreen
+                ? 16
+                : 22,
+            vertical: isVerySmallScreen
+                ? 8
+                : isSmallScreen
+                ? 10
+                : 12,
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(
+                iconPath,
+                width: isVerySmallScreen
+                    ? 14
+                    : isSmallScreen
+                    ? 16
+                    : 20,
+                height: isVerySmallScreen
+                    ? 14
+                    : isSmallScreen
+                    ? 16
+                    : 20,
+              ),
+              SizedBox(
+                width: isVerySmallScreen
+                    ? 6
+                    : isSmallScreen
+                    ? 8
+                    : 14,
+              ),
+              Flexible(
+                child: Text(
+                  count.toString(),
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: isVerySmallScreen
+                        ? 12
+                        : isSmallScreen
+                        ? 14
+                        : 16,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
 }

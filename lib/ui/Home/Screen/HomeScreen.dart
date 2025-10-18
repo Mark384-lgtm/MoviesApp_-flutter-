@@ -2,11 +2,11 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:movies/core/resources/AssetsManager.dart';
 import 'package:movies/core/resources/ColorManager.dart';
-import 'package:movies/ui/Home/widgets/browse/browse_nav.dart';
 import 'package:movies/ui/Home/widgets/profile/profile_nav.dart';
 
-import '../../../core/resources/AssetsManager.dart';
+import '../widgets/browse/browse_nav.dart';
 import '../widgets/home_nav/home_nav.dart';
 import '../widgets/search_nav/search_nav.dart';
 
@@ -18,12 +18,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  List<Widget> navigationView = [
-    home_nav(),
-    search_nav(),
-    browse_nav(),
+  List<Widget> navigationView = const [
+    HomeNav(),
+    SearchNav(),
+    BrowseNav(),
     ProfileTab(),
   ];
+
   int selectedIndex = 0;
 
   @override
@@ -54,50 +55,28 @@ class _HomeScreenState extends State<HomeScreen> {
               type: BottomNavigationBarType.fixed,
               showSelectedLabels: false,
               showUnselectedLabels: false,
+              selectedFontSize: 0,
+              unselectedFontSize: 0,
               items: [
-                BottomNavigationBarItem(
-                  label: "home",
-                  icon: SvgPicture.asset(
-                    AssetsManager.home,
-                    color: Colors.white,
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    AssetsManager.selected_home,
-                    color: Colors.amber,
-                  ),
+                _buildBottomNavItem(
+                  AssetsManager.home,
+                  AssetsManager.selected_home,
+                  "home",
                 ),
-                BottomNavigationBarItem(
-                  label: "search",
-                  icon: SvgPicture.asset(
-                    AssetsManager.search,
-                    color: Colors.white,
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    AssetsManager.selected_search,
-                    color: Colors.amber,
-                  ),
+                _buildBottomNavItem(
+                  AssetsManager.search,
+                  AssetsManager.selected_search,
+                  "search",
                 ),
-                BottomNavigationBarItem(
-                  label: "explore",
-                  icon: SvgPicture.asset(
-                    AssetsManager.browse,
-                    color: Colors.white,
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    AssetsManager.selected_browse,
-                    color: Colors.amber,
-                  ),
+                _buildBottomNavItem(
+                  AssetsManager.browse,
+                  AssetsManager.selected_browse,
+                  "explore",
                 ),
-                BottomNavigationBarItem(
-                  label: "profile",
-                  icon: SvgPicture.asset(
-                    AssetsManager.profile,
-                    color: Colors.white,
-                  ),
-                  activeIcon: SvgPicture.asset(
-                    AssetsManager.selected_profile,
-                    color: Colors.amber,
-                  ),
+                _buildBottomNavItem(
+                  AssetsManager.profile,
+                  AssetsManager.selected_profile,
+                  "profile",
                 ),
               ],
               onTap: (currentIndex) {
@@ -109,6 +88,23 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
         body: navigationView[selectedIndex],
+      ),
+    );
+  }
+
+  BottomNavigationBarItem _buildBottomNavItem(
+    String icon,
+    String activeIcon,
+    String label,
+  ) {
+    return BottomNavigationBarItem(
+      label: label,
+      icon: SvgPicture.asset(icon, color: Colors.white, width: 24, height: 24),
+      activeIcon: SvgPicture.asset(
+        activeIcon,
+        color: Colors.amber,
+        width: 24,
+        height: 24,
       ),
     );
   }

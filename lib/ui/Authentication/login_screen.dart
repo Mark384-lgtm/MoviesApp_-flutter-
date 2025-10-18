@@ -1,4 +1,4 @@
-// ignore_for_file: use_build_context_synchronously, curly_braces_in_flow_control_structures, avoid_print
+// ignore_for_file: use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,6 @@ import 'package:movies/core/resources/RoutesManager.dart';
 import '../../core/resources/AssetsManager.dart';
 import '../../core/resources/ColorManager.dart';
 import '../../core/reusable_components/custom_button.dart';
-import '../../core/reusable_components/custom_switch.dart';
 import '../../core/reusable_components/custom_textField.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -30,7 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
   bool _obscurePassword = true;
   bool _isLoading = false;
   bool _isGoogleLoading = false;
-  int _selectedLanguage = 0;
 
   @override
   void dispose() {
@@ -59,12 +57,13 @@ class _LoginScreenState extends State<LoginScreen> {
       String errorMessage = 'An error occurred. Please try again.';
       if (e.code == 'user-not-found') {
         errorMessage = 'No user found with this email.';
-      } else if (e.code == 'wrong-password')
+      } else if (e.code == 'wrong-password') {
         errorMessage = 'Incorrect password.';
-      else if (e.code == 'invalid-email')
+      } else if (e.code == 'invalid-email') {
         errorMessage = 'Invalid email address.';
-      else if (e.code == 'user-disabled')
+      } else if (e.code == 'user-disabled') {
         errorMessage = 'This account has been disabled.';
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
@@ -107,14 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
       String errorMessage = 'Google sign-in failed. Please try again.';
       if (e.code == 'account-exists-with-different-credential') {
         errorMessage = 'Account exists with different credentials.';
-      } else if (e.code == 'invalid-credential')
+      } else if (e.code == 'invalid-credential') {
         errorMessage = 'The Google credential is invalid or expired.';
+      }
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text(errorMessage), backgroundColor: Colors.red),
       );
     } catch (e) {
-      print("error : $e");
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Google sign-in failed. Try again later.'),
@@ -129,184 +128,253 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         scrolledUnderElevation: 0,
         centerTitle: true,
-        title: Text("Login", style: TextStyle(color: ColorManager.yellow)),
+        title: Text(
+          "Login",
+          style: TextStyle(color: ColorManager.yellow, fontSize: 20),
+        ),
         backgroundColor: Colors.transparent,
       ),
       backgroundColor: ColorManager.screen_background,
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              const SizedBox(height: 50),
-              AssetsManager.Logo.endsWith('.svg')
-                  ? SvgPicture.asset(AssetsManager.Logo)
-                  : Image.asset(AssetsManager.Logo),
-              const SizedBox(height: 25),
-              CustomTextFormField(
-                controller: _emailController,
-                labelText: "Email",
-                hintText: "Enter your email",
-                iconAsset: AssetsManager.EmailIcon,
-                keyboardType: TextInputType.emailAddress,
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your email';
-                  }
-                  if (!RegExp(r'^[^\s@]+@[^\s@]+\.[^\s@]+$').hasMatch(value)) {
-                    return 'Please enter a valid email';
-                  }
-                  return null;
-                },
-                inputFormatters: [],
-              ),
-              const SizedBox(height: 16),
-              CustomTextFormField(
-                controller: _passwordController,
-                labelText: "Password",
-                hintText: "Enter your password",
-                iconAsset: AssetsManager.PassIcon,
-                obscureText: _obscurePassword,
-                suffixIcon: IconButton(
-                  icon: Icon(
-                    _obscurePassword ? Icons.visibility : Icons.visibility_off,
-                    color: Colors.white,
-                  ),
-                  onPressed: _togglePasswordVisibility,
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please enter your password';
-                  }
-                  if (value.length < 6) {
-                    return 'Password must be at least 6 characters';
-                  }
-                  return null;
-                },
-                inputFormatters: [],
-              ),
-              Align(
-                alignment: AlignmentDirectional.centerEnd,
-                child: TextButton(
-                  onPressed: () =>
-                      Navigator.pushNamed(context, RouteManager.forgetPassword),
-                  child: Text(
-                    "Forgot Password?",
-                    style: TextStyle(color: ColorManager.yellow),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16),
-              SizedBox(
-                width: double.infinity,
-                child: CustomButton(
-                  title: const Text("Login"),
-                  onclick: _submitForm,
-                  isLoading: _isLoading,
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Text(
-                    "Don't have an account?",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                  TextButton(
-                    onPressed: () =>
-                        Navigator.pushNamed(context, RouteManager.register),
-                    child: Text(
-                      "Create One",
-                      style: TextStyle(color: ColorManager.yellow),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 25),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 26),
-                child: Row(
-                  children: [
-                    const Expanded(child: Divider(color: ColorManager.yellow)),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      child: Text(
-                        "OR",
-                        style: Theme.of(context).textTheme.titleMedium
-                            ?.copyWith(color: ColorManager.yellow),
-                      ),
-                    ),
-                    const Expanded(child: Divider(color: ColorManager.yellow)),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 25),
-              SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  onPressed: _isGoogleLoading ? null : _handleGoogleSignIn,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    backgroundColor: ColorManager.yellow,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: _isGoogleLoading
-                      ? const SizedBox(
-                          height: 24,
-                          width: 24,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(
-                              AssetsManager.GoogleIcon,
-                              height: 24,
-                              width: 24,
+      body: LayoutBuilder(
+        builder: (context, constraints) {
+          final isSmallScreen = constraints.maxWidth < 350;
+          final isTablet = constraints.maxWidth > 600;
+
+          return SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: isTablet ? 32 : 16),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: IntrinsicHeight(
+                child: Form(
+                  key: _formKey,
+                  child: Column(
+                    children: [
+                      SizedBox(height: constraints.maxHeight * 0.05),
+
+                      AssetsManager.Logo.endsWith('.svg')
+                          ? SvgPicture.asset(
+                              AssetsManager.Logo,
+                              width: isTablet ? 200 : 150,
+                              height: isTablet ? 200 : 150,
+                            )
+                          : Image.asset(
+                              AssetsManager.Logo,
+                              width: isTablet ? 200 : 150,
+                              height: isTablet ? 200 : 150,
                             ),
-                            const SizedBox(width: 12),
-                            Text(
-                              "Login with Google",
-                              style: TextStyle(
-                                color: ColorManager.screen_background,
+
+                      SizedBox(height: constraints.maxHeight * 0.01),
+
+                      Expanded(
+                        child: Column(
+                          children: [
+                            CustomTextFormField(
+                              controller: _emailController,
+                              labelText: "Email",
+                              hintText: "Enter your email",
+                              iconAsset: AssetsManager.EmailIcon,
+                              keyboardType: TextInputType.emailAddress,
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your email';
+                                }
+                                if (!RegExp(
+                                  r'^[^\s@]+@[^\s@]+\.[^\s@]+$',
+                                ).hasMatch(value)) {
+                                  return 'Please enter a valid email';
+                                }
+                                return null;
+                              },
+                              inputFormatters: [],
+                            ),
+                            const SizedBox(height: 16),
+
+                            CustomTextFormField(
+                              controller: _passwordController,
+                              labelText: "Password",
+                              hintText: "Enter your password",
+                              iconAsset: AssetsManager.PassIcon,
+                              obscureText: _obscurePassword,
+                              suffixIcon: IconButton(
+                                icon: Icon(
+                                  _obscurePassword
+                                      ? Icons.visibility
+                                      : Icons.visibility_off,
+                                  color: Colors.white,
+                                  size: isSmallScreen ? 18 : 24,
+                                ),
+                                onPressed: _togglePasswordVisibility,
+                              ),
+                              validator: (value) {
+                                if (value == null || value.isEmpty) {
+                                  return 'Please enter your password';
+                                }
+                                if (value.length < 6) {
+                                  return 'Password must be at least 6 characters';
+                                }
+                                return null;
+                              },
+                              inputFormatters: [],
+                            ),
+
+                            Align(
+                              alignment: AlignmentDirectional.centerEnd,
+                              child: TextButton(
+                                onPressed: () => Navigator.pushNamed(
+                                  context,
+                                  RouteManager.forgetPassword,
+                                ),
+                                child: Text(
+                                  "Forgot Password?",
+                                  style: TextStyle(
+                                    color: ColorManager.yellow,
+                                    fontSize: isSmallScreen ? 14 : 16,
+                                  ),
+                                ),
                               ),
                             ),
+
+                            const SizedBox(height: 10),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: CustomButton(
+                                title: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                    fontSize: isSmallScreen ? 16 : 18,
+                                  ),
+                                ),
+                                onclick: _submitForm,
+                                isLoading: _isLoading,
+                              ),
+                            ),
+
+                            const SizedBox(height: 10),
+
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Don't have an account?",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: isSmallScreen ? 14 : 16,
+                                  ),
+                                ),
+                                TextButton(
+                                  onPressed: () => Navigator.pushNamed(
+                                    context,
+                                    RouteManager.register,
+                                  ),
+                                  child: Text(
+                                    "Create One",
+                                    style: TextStyle(
+                                      color: ColorManager.yellow,
+                                      fontSize: isSmallScreen ? 14 : 16,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: isTablet ? 50 : 26,
+                              ),
+                              child: Row(
+                                children: [
+                                  const Expanded(
+                                    child: Divider(color: ColorManager.yellow),
+                                  ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 16,
+                                    ),
+                                    child: Text(
+                                      "OR",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .titleMedium
+                                          ?.copyWith(
+                                            color: ColorManager.yellow,
+                                            fontSize: isSmallScreen ? 14 : 16,
+                                          ),
+                                    ),
+                                  ),
+                                  const Expanded(
+                                    child: Divider(color: ColorManager.yellow),
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            const SizedBox(height: 15),
+
+                            SizedBox(
+                              width: double.infinity,
+                              child: ElevatedButton(
+                                onPressed: _isGoogleLoading
+                                    ? null
+                                    : _handleGoogleSignIn,
+                                style: ElevatedButton.styleFrom(
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 16,
+                                  ),
+                                  backgroundColor: ColorManager.yellow,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                child: _isGoogleLoading
+                                    ? const SizedBox(
+                                        height: 24,
+                                        width: 24,
+                                        child: CircularProgressIndicator(
+                                          strokeWidth: 2,
+                                        ),
+                                      )
+                                    : Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          SvgPicture.asset(
+                                            AssetsManager.GoogleIcon,
+                                            height: isSmallScreen ? 20 : 24,
+                                            width: isSmallScreen ? 20 : 24,
+                                          ),
+                                          const SizedBox(width: 12),
+                                          Text(
+                                            "Login with Google",
+                                            style: TextStyle(
+                                              color: ColorManager
+                                                  .screen_background,
+                                              fontSize: isSmallScreen ? 14 : 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                              ),
+                            ),
+
+                            const SizedBox(height: 24),
+
+                            SizedBox(height: constraints.maxHeight * 0.05),
                           ],
                         ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-              const SizedBox(height: 24),
-              Center(
-                child: CustomSwitch(
-                  onChange: (value) =>
-                      setState(() => _selectedLanguage = value),
-                  icons: [
-                    SvgPicture.asset(
-                      AssetsManager.English,
-                      height: 30,
-                      width: 30,
-                    ),
-                    SvgPicture.asset(
-                      AssetsManager.Arabic,
-                      height: 30,
-                      width: 30,
-                    ),
-                  ],
-                  current: _selectedLanguage,
-                ),
-              ),
-              const SizedBox(height: 40),
-            ],
-          ),
-        ),
+            ),
+          );
+        },
       ),
     );
   }

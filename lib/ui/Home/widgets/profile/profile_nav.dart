@@ -1,4 +1,4 @@
-// ignore_for_file: deprecated_member_use, unused_element, use_build_context_synchronously
+// ignore_for_file: deprecated_member_use, use_build_context_synchronously
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -10,42 +10,12 @@ import '../../../../core/resources/AssetsManager.dart';
 import '../../../../core/resources/ColorManager.dart';
 import 'edit_profile_screen.dart';
 
-Future<void> _signOut(BuildContext context) async {
-  final confirmed =
-      await showDialog<bool>(
-        context: context,
-        builder: (_) => AlertDialog(
-          title: Text('Confirm Sign Out'),
-          content: Text('Are you sure you want to sign out?'),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, false),
-              child: Text('Cancel'),
-            ),
-            TextButton(
-              onPressed: () => Navigator.pop(context, true),
-              child: Text('Sign Out'),
-            ),
-          ],
-        ),
-      ) ??
-      false;
-
-  if (confirmed) {
-    try {
-      await FirebaseAuth.instance.signOut();
-      await GoogleSignIn().signOut();
-    } catch (_) {}
-    Navigator.pushNamedAndRemoveUntil(context, '/Login', (route) => false);
-  }
-}
-
 class ProfileTab extends StatelessWidget {
   const ProfileTab({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final User? user = FirebaseAuth.instance.currentUser;
 
     return DefaultTabController(
       length: 2,
@@ -56,7 +26,7 @@ class ProfileTab extends StatelessWidget {
           centerTitle: true,
           title: Text(
             "Profile",
-            style: theme.textTheme.titleLarge?.copyWith(
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
               color: ColorManager.yellow,
               fontWeight: FontWeight.w600,
             ),
@@ -67,14 +37,13 @@ class ProfileTab extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              const _ProfileHeader(),
-              // Fixed height container for tab bar
+              _ProfileHeader(user: user),
               Container(
-                height: 60, // Optimal height for tabs
+                height: 60,
                 color: ColorManager.navbarColor,
                 child: const _CustomTabBar(),
               ),
-              Expanded(child: _TabContent()),
+              const Expanded(child: _TabContent()),
             ],
           ),
         ),
@@ -84,31 +53,34 @@ class ProfileTab extends StatelessWidget {
 }
 
 class _ProfileHeader extends StatelessWidget {
-  const _ProfileHeader();
+  final User? user;
+
+  const _ProfileHeader({required this.user});
 
   void _navigateToEditProfile(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(
-        builder: (context) => EditProfileScreen(
-          userName: "John Safwat",
-          phoneNumber: "+1 234 567 8900",
-        ),
-      ),
+      MaterialPageRoute(builder: (context) => EditProfileScreen(user: user)),
     );
   }
 
   @override
   Widget build(BuildContext context) {
+    final String displayName = user?.displayName ?? 'User';
+    final String? photoURL = user?.photoURL;
+
     return Container(
       color: ColorManager.navbarColor,
-      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          const _StatsRow(),
-          const SizedBox(height: 16),
-          const _UserName(),
-          const SizedBox(height: 16),
+          _StatsRow(photoURL: photoURL),
+          const SizedBox(height: 15),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [_UserInfo(displayName: displayName)],
+          ),
+          const SizedBox(height: 10),
           _ActionButtons(
             onEditProfile: () => _navigateToEditProfile(context),
             onExit: () => _signOut(context),
@@ -120,28 +92,52 @@ class _ProfileHeader extends StatelessWidget {
 }
 
 class _StatsRow extends StatelessWidget {
-  const _StatsRow();
+  final String? photoURL;
+
+  const _StatsRow({required this.photoURL});
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Padding(
-          padding: const EdgeInsets.only(left: 11),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(color: ColorManager.yellow, width: 2),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxWidth < 350;
+
+        return Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 11),
+              child: Container(
+                width: isSmallScreen ? 70 : 80,
+                height: isSmallScreen ? 70 : 80,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: ColorManager.yellow, width: 2),
+                ),
+                child: ClipOval(
+                  child: photoURL != null && photoURL!.isNotEmpty
+                      ? Image.network(
+                          photoURL!,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) {
+                            return Image.asset(
+                              AssetsManager.red_Avatar,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          AssetsManager.red_Avatar,
+                          fit: BoxFit.cover,
+                        ),
+                ),
+              ),
             ),
-            child: ClipOval(
-              child: Image.asset(AssetsManager.red_Avatar, fit: BoxFit.cover),
-            ),
-          ),
-        ),
-        const _StatItem("Wish List", "12"),
-        const _StatItem("History", "10"),
-      ],
+            const _StatItem("Wish List", "12"),
+            const _StatItem("History", "10"),
+          ],
+        );
+      },
     );
   }
 }
@@ -162,17 +158,16 @@ class _StatItem extends StatelessWidget {
         Text(
           value,
           style: theme.textTheme.headlineSmall?.copyWith(
-            fontSize: 36,
+            fontSize: 28,
             color: Colors.white,
             fontWeight: FontWeight.bold,
           ),
         ),
-        const SizedBox(height: 4),
         Text(
           title,
           style: theme.textTheme.bodyLarge?.copyWith(
             color: Colors.white,
-            fontSize: 24,
+            fontSize: 16,
             fontWeight: FontWeight.w700,
           ),
         ),
@@ -181,22 +176,26 @@ class _StatItem extends StatelessWidget {
   }
 }
 
-class _UserName extends StatelessWidget {
-  const _UserName();
+class _UserInfo extends StatelessWidget {
+  final String displayName;
+
+  const _UserInfo({required this.displayName});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        "John Safwat",
-        style: theme.textTheme.titleLarge?.copyWith(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          displayName,
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-      ),
+      ],
     );
   }
 }
@@ -209,45 +208,58 @@ class _ActionButtons extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 3,
-          child: CustomButton(
-            title: const Text("Edit Profile"),
-            onclick: onEditProfile,
-          ),
-        ),
-        const SizedBox(width: 12),
-        Expanded(
-          flex: 1,
-          child: ElevatedButton(
-            onPressed: onExit,
-            style: ElevatedButton.styleFrom(
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              backgroundColor: ColorManager.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(16),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final isSmallScreen = constraints.maxWidth < 350;
+
+        return Row(
+          children: [
+            Expanded(
+              flex: 3,
+              child: CustomButton(
+                title: Text(
+                  "Edit Profile",
+                  style: TextStyle(fontSize: isSmallScreen ? 14 : 16),
+                ),
+                onclick: onEditProfile,
               ),
             ),
-            child: const Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  "Exit",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400,
+            const SizedBox(width: 12),
+            Expanded(
+              flex: 1,
+              child: ElevatedButton(
+                onPressed: onExit,
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  backgroundColor: ColorManager.red,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                SizedBox(width: 5),
-                Icon(Icons.logout, color: Colors.white),
-              ],
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      "Exit",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: isSmallScreen ? 14 : 16,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                    const SizedBox(width: 5),
+                    Icon(
+                      Icons.logout,
+                      color: Colors.white,
+                      size: isSmallScreen ? 16 : 20,
+                    ),
+                  ],
+                ),
+              ),
             ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }
@@ -263,18 +275,18 @@ class _CustomTabBar extends StatelessWidget {
       indicatorSize: TabBarIndicatorSize.tab,
       labelColor: ColorManager.yellow,
       unselectedLabelColor: Colors.white70,
-      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+      labelStyle: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
       unselectedLabelStyle: const TextStyle(
-        fontSize: 16,
+        fontSize: 14,
         fontWeight: FontWeight.w500,
       ),
       tabs: const [
         _TabItem(
-          iconSize: 18,
+          iconSize: 16,
           asset: AssetsManager.wish_list_icon,
           label: "Watch List",
         ),
-        _TabItem(iconSize: 22, asset: AssetsManager.folder, label: "History"),
+        _TabItem(iconSize: 18, asset: AssetsManager.folder, label: "History"),
       ],
     );
   }
@@ -316,7 +328,7 @@ class _TabItem extends StatelessWidget {
           const SizedBox(width: 8),
           Text(
             label,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -331,17 +343,13 @@ class _TabContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return TabBarView(
       children: [
-        Center(
-          child: _buildTabContent(
-            "Your watch list movies will appear here",
-            AssetsManager.popcorn,
-          ),
+        _buildTabContent(
+          "Your watch list movies will appear here",
+          AssetsManager.popcorn,
         ),
-        Center(
-          child: _buildTabContent(
-            "Your viewing history will appear here",
-            AssetsManager.popcorn,
-          ),
+        _buildTabContent(
+          "Your viewing history will appear here",
+          AssetsManager.popcorn,
         ),
       ],
     );
@@ -359,8 +367,8 @@ class _TabContent extends StatelessWidget {
             const SizedBox(height: 40),
             Image.asset(
               imageAsset,
-              width: 120,
-              height: 120,
+              width: 100,
+              height: 100,
               fit: BoxFit.contain,
             ),
             const SizedBox(height: 24),
@@ -368,7 +376,7 @@ class _TabContent extends StatelessWidget {
               message,
               style: const TextStyle(
                 color: Colors.grey,
-                fontSize: 16,
+                fontSize: 14,
                 height: 1.5,
               ),
               textAlign: TextAlign.center,
@@ -377,5 +385,44 @@ class _TabContent extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+Future<void> _signOut(BuildContext context) async {
+  final confirmed =
+      await showDialog<bool>(
+        context: context,
+        builder: (_) => AlertDialog(
+          title: const Text('Confirm Sign Out'),
+          content: const Text('Are you sure you want to sign out?'),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context, false),
+              child: const Text('Cancel'),
+            ),
+            TextButton(
+              onPressed: () => Navigator.pop(context, true),
+              child: const Text('Sign Out'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+
+  if (confirmed) {
+    try {
+      await FirebaseAuth.instance.signOut();
+      await GoogleSignIn().signOut();
+      // Navigate to login screen
+      Navigator.pushNamedAndRemoveUntil(context, '/Login', (route) => false);
+    } catch (e) {
+      // Handle sign out error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Error signing out: $e'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 }
